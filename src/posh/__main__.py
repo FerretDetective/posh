@@ -69,7 +69,7 @@ def main() -> None:
         interpreter = FileIntepreter(Path(starting_directory), file_path)
     else:
         print(
-            f"posh {__version__}  Copyright (C) <2023>  Eris Fletcher\n"
+            f"posh {__version__}  Copyright (C) 2023  Eris Fletcher\n"
             "This program comes with ABSOLUTELY NO WARRANTY; for details type 'license -p'.\n"
             "This is free software, and you are welcome to redistribute it\n"
             "under certain conditions; for details type 'license -p'.\n"
