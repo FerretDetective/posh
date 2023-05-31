@@ -13,10 +13,7 @@ if TYPE_CHECKING:
 
 class Alias(Executable):
     def __init__(self) -> None:
-        self.parser = InlineArgumentParser.from_command(
-            self,
-            epilog="To change an existing alias, first remove it then create a new alias",
-        )
+        self.parser = InlineArgumentParser.from_command(self)
         self.parser.add_argument(
             "alias", nargs="?", help="alias for an existing command or alias"
         )
