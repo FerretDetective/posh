@@ -22,18 +22,18 @@ The posh shell is a cross platform shell written in python meant to be a partial
 
 ## Installation
 
-1. Open your terminal
-2. Run `$ python -m pip install git+https://github.com/ErisFletcher/posh`
+1. Open your terminal.
+2. Run `$ python -m pip install git+https://github.com/ErisFletcher/posh`.
 
 ## Basic Usage
 
 ### Running the Shell in Interactive Mode
 
-To start the interpreter run `$ python -m posh <...args>` in your terminal
+To start the interpreter run `$ python -m posh <...args>` in your terminal.
 
 ### Running a Script with the Shell
 
-To start the interpreter run `$ python -m posh <path-to-your-script> <...args>` in your terminal
+To start the interpreter run `$ python -m posh <path-to-your-script> <...args>` in your terminal.
 
 ### Getting Help
 
