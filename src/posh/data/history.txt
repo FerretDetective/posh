@@ -1,0 +1,155 @@
+cd abc; ls
+clear
+exit
+kill 23984923892348973732894789234789
+kill 23984923892348973732894789234789
+kill 23984923892348973732894789234789; ls
+clear
+exit
+cd Desktop
+clear
+ls
+ls -a
+rm a.txt
+clear
+exit
+ls
+clear
+cd Desktop
+clear
+cat x
+clear
+exit
+exit
+exit
+clear
+exitt
+exit
+exit
+config --generate_default
+clear
+exit
+alias
+clear
+exit
+alias
+alias cls clear
+cls
+exit
+alias a ali
+exit
+lisense
+license
+license --print
+exit
+license --print
+exit
+license
+license
+lisense
+exit
+exit
+exit
+lisence
+lisence -p
+clear
+license -l
+exit
+help
+exit
+help
+exit
+alias -p
+alias -p
+alias -p
+exit
+alias -p
+exit
+alias -p
+alias -p
+exit
+alias -p
+exit
+alias -p
+exit
+alias a
+alias 234
+alias -d
+rm
+exit
+exit
+alias a
+exit
+alias a alias
+alias a alias
+exit
+alias a alias
+config --save
+exit
+alias a alias
+config --save
+config --generate_default
+clear
+exit
+config --print
+exit
+config -p
+config --print
+clear
+alias a alias
+config --print
+alias --print
+clear
+a
+alias a alias
+a
+a
+exit
+alias a alias
+a
+exit
+alias a alias
+a
+exit
+alias "fuck you" alias
+"fuck you"
+"fuck you" --print
+exit
+alias alias alias
+alias --print
+alias alias alias
+alias alias alias
+alias --print
+alias "fuck you" alias; config --save; config --print
+config --generate_default
+clear
+exit
+exit
+exit
+exit
+exit
+exit
+exit
+license -l
+config --locate
+clear
+config --where
+config --print
+alias a alias
+a
+config --print
+clear
+config --save
+config --generate_default
+clear
+exit
+config --where
+clear
+exit
+config -p -w
+config -p
+clear
+config -w
+license -w
+clear
+exit

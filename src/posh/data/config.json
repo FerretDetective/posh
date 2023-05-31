@@ -1,0 +1,16 @@
+{
+    "show_time": true,
+    "show_username": true,
+    "record_history": true,
+    "shorten_path": true,
+    "shortened_path_length": 40,
+    "colours": {
+        "time": "WHITE",
+        "current_path": "LIGHT_BLUE",
+        "user_name": "WHITE",
+        "directory_path": "LIGHT_CYAN",
+        "file_path": "GREEN",
+        "errors": "LIGHT_RED"
+    },
+    "aliases": {}
+}
