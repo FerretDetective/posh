@@ -1,9 +1,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from functools import cache
 from shlex import shlex
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Mapping
 
 from ..commands import COMMANDS
 
@@ -33,11 +32,11 @@ class VariableDeclaration(CommandString):
     value: str
 
 
-@cache
-def parse_command(string_args: str) -> list[CommandString] | ValueError:
+def parse_command(
+    string_args: str, aliases: Mapping[str, list[str]]
+) -> list[CommandString] | ValueError:
     lexer = shlex(string_args, punctuation_chars=True, posix=True)
     lexer.whitespace_split = True
-
     try:
         args = list(lexer)
     except ValueError as err:
@@ -54,6 +53,30 @@ def parse_command(string_args: str) -> list[CommandString] | ValueError:
 
     if cur_args:
         cmd_groups.append(cur_args)  # remove remaing arguments left over
+
+    # TODO: verify functionality & refactor for speed + readibility
+    for cmd_group_index, cmd_group in enumerate(cmd_groups):
+        if "alias" in cmd_group:
+            continue
+
+        cur_group: list[str] = []
+        indexs_to_replace: list[tuple[int, list[str]]] = []
+        for inner_index, arg in enumerate(cmd_group):
+            if " " in arg:
+                continue
+
+            cur_group.append(arg)
+
+            if arg in aliases:
+                expanded = aliases[arg]
+                if " ".join(expanded) != " ".join(cur_group):
+                    indexs_to_replace.append((inner_index, expanded))
+                cur_group = []
+
+        for inner_index, arg in indexs_to_replace:
+            cmd_groups[cmd_group_index] = (
+                cmd_group[:inner_index] + arg + cmd_group[inner_index + 1 :]
+            )
 
     command_strings = list[CommandString]()
     for arg_group in cmd_groups:

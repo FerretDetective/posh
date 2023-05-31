@@ -60,13 +60,7 @@ class Interpreter:
         self.history_manager.add(cmd)
 
     def interpret_command(self, string_command: str) -> None | Exception:
-        # TODO: remove the ability to create an alias with a spacec in the key
-        for alias, expanded in self.config.aliases.items():
-            string_command = string_command.replace(expanded, alias)
-            string_command = string_command.replace(alias, expanded)
-
-        commands = parse_command(string_command)
-
+        commands = parse_command(string_command, self.config.aliases)
         if isinstance(commands, ValueError):
             return commands
 

@@ -1,5 +1,9 @@
+from __future__ import annotations
+
 from json import dump, load
 from pathlib import Path
+from shlex import shlex
+from string import whitespace
 from typing import Any, Self
 
 from loguru import logger
@@ -90,7 +94,11 @@ class Config:
         self.shorten_path = shorten_path if shorten_path is not None else defaults[3]
         self.shortened_path_length = shortened_path_length or defaults[4]
         self.colours = ColourConfig(**colours) if colours is not None else defaults[5]
-        self.aliases = aliases if aliases is not None else defaults[6]
+        self.aliases = (
+            self.parse_aliases(aliases) if aliases is not None else defaults[6]
+        )
+
+        self.check_aliases()
 
     def __repr__(self) -> str:
         return (
@@ -118,7 +126,7 @@ class Config:
 
     @staticmethod
     def get_defaults() -> (
-        tuple[bool, bool, bool, bool, int, ColourConfig, dict[str, str]]
+        tuple[bool, bool, bool, bool, int, ColourConfig, dict[str, list[str]]]
     ):
         # define all defaults for this class here
         return (True, True, True, True, 40, ColourConfig(), {})
@@ -149,7 +157,7 @@ class Config:
                 "file_path": self.colours.file_path.name,
                 "errors": self.colours.errors.name,
             },
-            "aliases": {**self.aliases},
+            "aliases": {alias: " ".join(arg) for alias, arg, in self.aliases.items()},
         }
 
     def write_to_json(self) -> None:
@@ -162,3 +170,33 @@ class Config:
         except OSError as err:
             logger.error(f"failed to save config, {err}")
             print(add_styles("failed to save config", self.colours.errors))
+
+    # TODO: verify edge cases
+    def check_aliases(self) -> None:
+        to_remove = list[str]()
+        for alias in self.aliases:
+            if any(s in alias for s in whitespace):
+                print(
+                    add_styles(
+                        f"Error: alias {alias!r} is invalid, white cannot be used in alias keys",
+                        self.colours.errors,
+                    )
+                )
+                to_remove.append(alias)
+
+        for key in to_remove:
+            self.aliases.pop(key)
+
+    # TODO: verify edge cases
+    def parse_aliases(self, aliases: dict[str, str]) -> dict[str, list[str]]:
+        parsed_aliases: dict[str, list[str]] = {}
+        for alias, args in aliases.items():
+            lexer = shlex(args)
+            lexer.whitespace_split = True
+
+            try:
+                parsed_aliases[alias] = list(lexer)
+            except ValueError as err:
+                print(add_styles(f"Error: {err}", self.colours.errors))
+                continue
+        return parsed_aliases

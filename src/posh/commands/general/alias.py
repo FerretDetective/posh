@@ -13,17 +13,28 @@ if TYPE_CHECKING:
 
 class Alias(Command):
     def __init__(self) -> None:
-        self.parser = InlineArgumentParser.from_command(self)
-        create_alias_group = self.parser.add_argument_group()
-        create_alias_group.add_argument(
+        self.parser = InlineArgumentParser.from_command(
+            self,
+            epilog="To change an existing alias, first remove it then create a new alias",
+        )
+        self.parser.add_argument(
             "alias", nargs="?", help="alias for an existing command or alias"
         )
-        create_alias_group.add_argument(
+        self.parser.add_argument(
             "command", nargs="?", help="command for the alias to reference"
         )
-        self.parser.add_argument_group().add_argument(
+        flag_group = self.parser.add_mutually_exclusive_group()
+        flag_group.add_argument(
             "-p", "--print", action="store_true", help="print the current aliases"
         )
+        flag_group.add_argument(
+            "-s",
+            "--save",
+            required=False,
+            action="store_true",
+            help="saves the config to disk, equivalent to 'config -s'",
+        )
+        flag_group.add_argument("-r", "--remove", help="remove an existing alias")
 
     @classmethod
     def command(cls) -> str:
@@ -39,12 +50,22 @@ class Alias(Command):
     def execute(self, console: Interpreter, args: Sequence[str]) -> None | Exception:
         if (options := self.parser.parse_arguments(args)) is None:
             return
-        # TODO: remove the ability to create an alias with a spacec in the key
+
         if options.print:
             print("Aliases:")
             print_dict(
-                console.config.aliases, format_func=repr, seperator=" -> ", depth=1
+                console.config.aliases,
+                format_key=repr,
+                format_val=lambda args: repr(" ".join(args)),
+                seperator=" -> ",
+                depth=1,
             )
+        elif options.save:
+            console.config.write_to_json()
+        elif options.remove is not None:
+            if options.remove not in console.config.aliases:
+                return Exception(f"Error: alias {options.remove!r} does not exist")
+            console.config.aliases.pop(options.remove)
         else:
             if not options.alias or not options.command:
                 self.parser.print_usage()
@@ -53,4 +74,7 @@ class Alias(Command):
                 )
                 return
 
-            console.config.aliases[options.alias] = options.command
+            console.config.aliases.update(
+                console.config.parse_aliases({options.alias: options.command})
+            )
+            console.config.check_aliases()

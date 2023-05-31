@@ -9,8 +9,9 @@ if TYPE_CHECKING:
 
 class InlineArgumentParser(ArgumentParser):
     @classmethod
-    def from_command(cls, command: Command) -> Self:
+    def from_command(cls, command: Command, epilog: str | None = None) -> Self:
         parser = cls(
+            epilog=epilog,
             prog=command.command(),
             description=command.description(),
             exit_on_error=False,
