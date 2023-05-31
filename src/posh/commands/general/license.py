@@ -43,7 +43,7 @@ class License(Command):
             self.parser.print_usage()
             return
 
-        license_path = console.project_dir / "LICENSE.md"
+        license_path = console.project_dir / "LICENSE.txt"
 
         if not license_path.exists():
             return FileNotFoundError("Error: couldn't find license file")
