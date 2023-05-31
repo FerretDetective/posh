@@ -1,14 +1,20 @@
 # Posh Shell
 
-Version: 1.0.0
+Version: 1.1.0
 
 ## Table of Contents
 
 - [Table of Contents](#table-of-contents)
+- [Links](#links)
 - [Overview](#overview)
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
 - [License](#license)
+
+## Links
+
+- [Home Page](https://github.com/ErisFletcher/posh)
+- [Issue Tracker](https://github.com/ErisFletcher/posh/issues)
 
 ## Overview
 
@@ -18,9 +24,6 @@ other shells like bash, zsh, powershell, etc. It implements many of the commands
 underlying shell using the 'run' command.
 
 ## Installation
-
-NOTE: This project requires a python version >= 3.11.0, to install it go to
-<https://www.python.org/downloads/> and follow the instructions provided there.
 
 1. Download the project
 2. Open your terminal in the install location of the shell
@@ -44,4 +47,5 @@ the help page.
 ## License
 
 This project is licensed with the GNU General Public License V3, for more information view the
-license file located in the installation directory.
+license file which can be located by running `$ license -w` or run `$ license -p` to print the
+license.
