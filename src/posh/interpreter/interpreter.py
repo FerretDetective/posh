@@ -43,7 +43,7 @@ class Interpreter:
                 except OSError as err:
                     logger.error(f"couldn't create history file, {err}")
                     self.history_manager = None
-        self.commands = load_commands(self.config.aliases, self.config.colours.errors)
+        self.commands = load_commands()
 
     def __repr__(self) -> str:
         return f"{type(self).__name__}{{pid: {getpid()!r}, cwd: {self.cwd!r}}}"
@@ -60,6 +60,11 @@ class Interpreter:
         self.history_manager.add(cmd)
 
     def interpret_command(self, string_command: str) -> None | Exception:
+        # TODO: remove the ability to create an alias with a spacec in the key
+        for alias, expanded in self.config.aliases.items():
+            string_command = string_command.replace(expanded, alias)
+            string_command = string_command.replace(alias, expanded)
+
         commands = parse_command(string_command)
 
         if isinstance(commands, ValueError):

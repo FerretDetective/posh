@@ -31,7 +31,7 @@ class Alias(Command):
 
     @staticmethod
     def description() -> str:
-        return "Create an alias for existing commands or aliases"
+        return "Create an alias for a string of commands"
 
     def help(self) -> str:
         return self.parser.format_help()
@@ -39,10 +39,12 @@ class Alias(Command):
     def execute(self, console: Interpreter, args: Sequence[str]) -> None | Exception:
         if (options := self.parser.parse_arguments(args)) is None:
             return
-
+        # TODO: remove the ability to create an alias with a spacec in the key
         if options.print:
             print("Aliases:")
-            print_dict(console.config.aliases, seperator=" -> ", depth=1)
+            print_dict(
+                console.config.aliases, format_func=repr, seperator=" -> ", depth=1
+            )
         else:
             if not options.alias or not options.command:
                 self.parser.print_usage()
@@ -51,12 +53,4 @@ class Alias(Command):
                 )
                 return
 
-            command = console.commands.get(options.command)
-            if command is None:
-                return Exception(
-                    f"Error: invalid alias: {options.alias!r} -> {options.command!r}, "
-                    f"{options.command} does not exist"
-                )
-
-            console.commands[options.alias] = command
             console.config.aliases[options.alias] = options.command

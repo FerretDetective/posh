@@ -5,7 +5,6 @@ from functools import cache
 from shlex import shlex
 from typing import TYPE_CHECKING
 
-from ..colours import TextStyle, add_styles
 from ..commands import COMMANDS
 
 if TYPE_CHECKING:
@@ -83,21 +82,5 @@ def parse_command(string_args: str) -> list[CommandString] | ValueError:
     return command_strings
 
 
-def load_commands(
-    aliases: dict[str, str], err_style: TextStyle
-) -> dict[str, type[Command]]:
-    commands = {command.command(): command for command in COMMANDS}
-
-    for alias, cmd_str in aliases.items():
-        command = commands.get(cmd_str)
-        if command is None:
-            print(
-                add_styles(
-                    f"Error: invalid alias: {alias!r} -> {cmd_str!r}, {cmd_str} does not exist",
-                    err_style,
-                )
-            )
-            continue
-        commands[alias] = command
-
-    return commands
+def load_commands() -> dict[str, type[Command]]:
+    return {command.command(): command for command in COMMANDS}
