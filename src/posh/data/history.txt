@@ -153,3 +153,6 @@ config -w
 license -w
 clear
 exit
+license
+license -w
+exit
