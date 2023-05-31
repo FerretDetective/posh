@@ -12,7 +12,6 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3.11",
 ]
-include-package-data = true
 requires-python = ">=3.11, <4"
 dependencies = [
     "loguru>=0.7.0",
