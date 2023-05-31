@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 
 from ...colours import add_styles
 from ..argparser import InlineArgumentParser
-from ..command import Command
+from ..command import Executable
 from .path_utils import backup, parse_path
 
 if TYPE_CHECKING:
@@ -25,7 +25,7 @@ def remove(path: Path) -> None | OSError:
         return OSError(f"Error: failed to remove {path.as_posix()!r}, {err}")
 
 
-class Cp(Command):
+class Cp(Executable):
     def __init__(self) -> None:
         self.parser = InlineArgumentParser.from_command(self)
         self.parser.add_argument(

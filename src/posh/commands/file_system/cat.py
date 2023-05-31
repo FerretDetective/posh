@@ -5,14 +5,14 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 from ..argparser import InlineArgumentParser
-from ..command import Command
+from ..command import Executable
 from .path_utils import check_path, parse_path
 
 if TYPE_CHECKING:
     from ...interpreter import Interpreter
 
 
-class Cat(Command):
+class Cat(Executable):
     def __init__(self) -> None:
         self.parser = InlineArgumentParser.from_command(self)
         self.parser.add_argument(

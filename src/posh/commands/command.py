@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from ..interpreter import Interpreter
 
 
-class Command(ABC):
+class Executable(ABC):
     __slots__ = ()
 
     @classmethod

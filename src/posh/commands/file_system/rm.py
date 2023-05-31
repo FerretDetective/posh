@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, Callable
 
 from ...colours import TextStyle, add_styles
 from ..argparser import InlineArgumentParser
-from ..command import Command
+from ..command import Executable
 from ..regexp import compile_regexp
 from .path_utils import check_ignore, parse_path
 
@@ -70,7 +70,7 @@ def count_path_objs(path: Path) -> tuple[int, int]:
     return (dirs, files)
 
 
-class Rm(Command):
+class Rm(Executable):
     def __init__(self) -> None:
         self.parser = InlineArgumentParser.from_command(self)
         self.parser.add_argument(

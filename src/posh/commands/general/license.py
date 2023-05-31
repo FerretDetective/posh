@@ -5,13 +5,13 @@ from typing import TYPE_CHECKING
 
 from ...colours import add_styles
 from ..argparser import InlineArgumentParser
-from ..command import Command
+from ..command import Executable
 
 if TYPE_CHECKING:
     from ...interpreter import Interpreter
 
 
-class License(Command):
+class License(Executable):
     def __init__(self) -> None:
         self.parser = InlineArgumentParser.from_command(self)
         self.parser.add_mutually_exclusive_group().add_argument(

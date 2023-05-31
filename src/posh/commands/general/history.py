@@ -8,7 +8,7 @@ from loguru import logger
 from pyperclip import copy  # type: ignore
 
 from ..argparser import InlineArgumentParser
-from ..command import Command
+from ..command import Executable
 
 if TYPE_CHECKING:
     from ...interpreter import HistoryManager, Interpreter
@@ -53,7 +53,7 @@ def get_line(number_string: str, history_manager: HistoryManager) -> str | Excep
     return lines[line_no].strip()
 
 
-class History(Command):
+class History(Executable):
     def __init__(self) -> None:
         self.parser = InlineArgumentParser.from_command(self)
         self.parser.add_mutually_exclusive_group().add_argument(

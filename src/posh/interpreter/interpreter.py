@@ -10,7 +10,7 @@ from .commands import (
     VariableDeclaration,
     VariableReference,
     load_commands,
-    parse_command,
+    parse_string_command,
 )
 from .config import Config
 from .history_manager import HistoryManager
@@ -60,7 +60,7 @@ class Interpreter:
         self.history_manager.add(cmd)
 
     def interpret_command(self, string_command: str) -> None | Exception:
-        commands = parse_command(string_command, self.config.aliases)
+        commands = parse_string_command(string_command, self.config.aliases)
         if isinstance(commands, ValueError):
             return commands
 

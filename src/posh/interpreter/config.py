@@ -171,7 +171,6 @@ class Config:
             logger.error(f"failed to save config, {err}")
             print(add_styles("failed to save config", self.colours.errors))
 
-    # TODO: verify edge cases
     def check_aliases(self) -> None:
         to_remove = list[str]()
         for alias in self.aliases:
@@ -187,7 +186,6 @@ class Config:
         for key in to_remove:
             self.aliases.pop(key)
 
-    # TODO: verify edge cases
     def parse_aliases(self, aliases: dict[str, str]) -> dict[str, list[str]]:
         parsed_aliases: dict[str, list[str]] = {}
         for alias, args in aliases.items():
@@ -197,6 +195,11 @@ class Config:
             try:
                 parsed_aliases[alias] = list(lexer)
             except ValueError as err:
-                print(add_styles(f"Error: {err}", self.colours.errors))
+                print(
+                    add_styles(
+                        f"Error: failed to create alias {alias!r}, {err}",
+                        self.colours.errors,
+                    )
+                )
                 continue
         return parsed_aliases

@@ -6,13 +6,13 @@ from typing import TYPE_CHECKING
 from psutil import AccessDenied, NoSuchProcess, Process
 
 from ..argparser import InlineArgumentParser
-from ..command import Command
+from ..command import Executable
 
 if TYPE_CHECKING:
     from ...interpreter import Interpreter
 
 
-class Kill(Command):
+class Kill(Executable):
     def __init__(self) -> None:
         self.parser = InlineArgumentParser.from_command(self)
         self.parser.add_argument("pid", type=int, help="pid of the process to kill")

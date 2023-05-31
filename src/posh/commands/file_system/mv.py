@@ -6,14 +6,14 @@ from shutil import move
 from typing import TYPE_CHECKING
 
 from ..argparser import InlineArgumentParser
-from ..command import Command
+from ..command import Executable
 from .path_utils import backup, parse_path
 
 if TYPE_CHECKING:
     from ...interpreter import Interpreter
 
 
-class Mv(Command):
+class Mv(Executable):
     def __init__(self) -> None:
         self.parser = InlineArgumentParser.from_command(self)
         self.parser.add_argument(

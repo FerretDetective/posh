@@ -5,13 +5,13 @@ from subprocess import run
 from typing import TYPE_CHECKING
 
 from ..argparser import InlineArgumentParser
-from ..command import Command
+from ..command import Executable
 
 if TYPE_CHECKING:
     from ...interpreter import Interpreter
 
 
-class Run(Command):
+class Run(Executable):
     def __init__(self) -> None:
         self.parser = InlineArgumentParser.from_command(self)
         self.parser.add_argument("cmd", type=str, help="command to run")

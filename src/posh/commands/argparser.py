@@ -4,12 +4,12 @@ from argparse import ArgumentError, ArgumentParser, ArgumentTypeError, Namespace
 from typing import TYPE_CHECKING, Self, Sequence
 
 if TYPE_CHECKING:
-    from .command import Command
+    from .command import Executable
 
 
 class InlineArgumentParser(ArgumentParser):
     @classmethod
-    def from_command(cls, command: Command, epilog: str | None = None) -> Self:
+    def from_command(cls, command: Executable, epilog: str | None = None) -> Self:
         parser = cls(
             epilog=epilog,
             prog=command.command(),

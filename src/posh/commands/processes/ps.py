@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 from psutil import AccessDenied, Process, process_iter
 
 from ..argparser import InlineArgumentParser
-from ..command import Command
+from ..command import Executable
 
 if TYPE_CHECKING:
     from ...interpreter import Interpreter
@@ -54,7 +54,7 @@ def format_process(process: Process) -> str:
     return f"{info[0]:>5} {info[1]:<8} {info[2]:>8} {info[3]}\n"
 
 
-class Ps(Command):
+class Ps(Executable):
     def __init__(self) -> None:
         self.parser = InlineArgumentParser.from_command(self)
 

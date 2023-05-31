@@ -5,14 +5,14 @@ from typing import TYPE_CHECKING
 
 from ...colours import TextStyle, add_styles
 from ..argparser import InlineArgumentParser
-from ..command import Command
+from ..command import Executable
 from .print_utils import print_dict
 
 if TYPE_CHECKING:
     from ...interpreter import Interpreter
 
 
-class Config(Command):
+class Config(Executable):
     def __init__(self) -> None:
         self.parser = InlineArgumentParser.from_command(self)
         group = self.parser.add_mutually_exclusive_group()

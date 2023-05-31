@@ -12,7 +12,7 @@ from natsort import natsorted
 
 from ...colours import TextStyle, add_styles
 from ..argparser import InlineArgumentParser
-from ..command import Command
+from ..command import Executable
 from ..regexp import compile_regexp
 from .path_utils import check_ignore, check_path, is_hidden, parse_path
 
@@ -75,7 +75,7 @@ def get_format_string(
     return output + "\n"
 
 
-class Ls(Command):
+class Ls(Executable):
     def __init__(self) -> None:
         self.parser = InlineArgumentParser.from_command(self)
         self.parser.add_argument(

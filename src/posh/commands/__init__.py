@@ -1,11 +1,11 @@
-from .command import Command
+from .command import Executable
 from .file_system import Cat, Cd, Cp, Ls, Mkdir, Mv, Pwd, Rm, Rmdir, Touch
 from .general import Alias, Clear, Config, Exit, Help, History, License
 from .processes import Kill, Ps, Run
 
-__all__ = ("Command",)
+__all__ = ("Executable",)
 
-COMMANDS: list[type[Command]] = [
+COMMANDS: list[type[Executable]] = [
     Exit,
     Clear,
     Cd,

@@ -1,4 +1,4 @@
-from .commands import load_commands, parse_command
+from .commands import load_commands, parse_string_command
 from .config import Config
 from .console import Console
 from .file_interpreter import FileIntepreter
@@ -11,6 +11,6 @@ __all__ = (
     "Console",
     "Config",
     "HistoryManager",
-    "parse_command",
+    "parse_string_command",
     "load_commands",
 )
