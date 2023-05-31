@@ -44,6 +44,8 @@ def parse_path(path: str | Path, cwd: Path) -> Path:
             new_path.extend(Path.home().parts)
         elif part == "..":
             if new_path:
+                if len(new_path) == 1:  # cannot go to the parent of the root "/"
+                    continue
                 new_path.pop()
             else:
                 new_path.extend(cwd.parent.parts)
