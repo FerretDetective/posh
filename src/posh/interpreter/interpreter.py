@@ -5,7 +5,13 @@ from pathlib import Path
 
 from loguru import logger
 
-from .commands import load_commands, parse_command
+from .commands import (
+    ExecutableCommand,
+    VariableDeclaration,
+    VariableReference,
+    load_commands,
+    parse_command,
+)
 from .config import Config
 from .history_manager import HistoryManager
 
@@ -60,11 +66,27 @@ class Interpreter:
             return commands
 
         for command in commands:
-            if (executor := self.commands.get(command[0])) is None:
-                return UnknownCommand(f"Error: unknown command {command[0]!r}")
+            if isinstance(command, VariableDeclaration):
+                self.variables[command.name] = command.value
+            elif isinstance(command, VariableReference):
+                if (variable := self.variables.get(command.name)) is None:
+                    return Exception(f"Error: unknown variable {command.name!r}")
 
-            err = executor().execute(self, command[1:])
-            if err is not None:
-                return err
+                print(repr(variable) if " " in variable else variable)
+            elif isinstance(command, ExecutableCommand):
+                if (executor := self.commands.get(command.command)) is None:
+                    return UnknownCommand(f"Error: unknown command {command.command!r}")
+
+                for index, value in enumerate(command.args):
+                    if value.startswith("$"):
+                        variable = self.variables.get(value)
+                        if variable is None:
+                            return Exception(f"Error: unknown variable {value!r}")
+                        command.args[index] = (
+                            repr(variable) if " " in variable else variable
+                        )
+
+                if (err := executor().execute(self, command.args)) is not None:
+                    return err
 
         return None

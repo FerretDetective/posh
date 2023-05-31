@@ -50,12 +50,12 @@ def main() -> None:
             return
 
     if arguments.file_path is not None:
-        file_path = Path(arguments.file_path)
+        file_path = Path(arguments.file_path).expanduser()
 
         if not file_path.is_absolute():
             file_path = starting_directory / file_path
-
-        file_path.expanduser().resolve()
+        else:
+            file_path = file_path.resolve()
 
         if not file_path.is_file():
             print(
