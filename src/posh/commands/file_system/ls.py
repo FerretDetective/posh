@@ -14,7 +14,7 @@ from ...colours import TextStyle, add_styles
 from ..argparser import InlineArgumentParser
 from ..command import Executable
 from ..regexp import compile_regexp
-from .path_utils import check_ignore, check_path, is_hidden, parse_path
+from .path_utils import check_ignore, is_hidden, parse_path
 
 if TYPE_CHECKING:
     from ...interpreter import Interpreter
@@ -144,7 +144,9 @@ class Ls(Executable):
             return
 
         parsed_string_path = parse_path(options.path, console.cwd)
-        path = check_path(parsed_string_path, console.cwd)
+
+        if not parsed_string_path.is_absolute():
+            path = console.cwd / parsed_string_path
 
         if path is None:
             return FileNotFoundError(f"Error: {options.path!r} does not exist.")

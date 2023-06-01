@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 
 from ..argparser import InlineArgumentParser
 from ..command import Executable
-from .path_utils import check_path, parse_path
+from .path_utils import parse_path
 
 if TYPE_CHECKING:
     from ...interpreter import Interpreter
@@ -69,15 +69,18 @@ class Cat(Executable):
 
         paths = list[Path]()
         for path_string in options.paths:
-            if (
-                path := check_path(parse_path(path_string, console.cwd), console.cwd)
-            ) is None:
-                return FileNotFoundError(f"Error: {path_string!r} does not exist")
-            paths.append(path)
+            path = parse_path(path_string, console.cwd)
 
-        for path in paths:
+            if not path.is_absolute():
+                path = console.cwd / path
+
+            if not path.exists():
+                return FileNotFoundError(f"Error: {path_string!r} does not exist")
+
             if not path.is_file():
                 return OSError(f"Error: {path.as_posix()!r} is an invalid file.")
+
+            paths.append(path)
 
         line_number = 1  # maintains count between multiple files
         for path in paths:

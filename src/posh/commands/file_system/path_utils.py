@@ -10,19 +10,6 @@ from ...colours import TextStyle, add_styles
 
 
 @cache
-def check_path(path: Path, cwd: Path) -> Path | None:
-    """
-    Check if a path exists, if not try to prefix ith with the current working directory.
-    If the path still doesn't exist return None, otherwise return the path.
-    """
-    if not path.exists():
-        if not (prefixed_path := cwd / path).exists():
-            return None
-        return prefixed_path
-    return path
-
-
-@cache
 def parse_path(path: str | Path, cwd: Path) -> Path:
     """
     Take a str or pathlib.Path and and return a pathlib.Path
