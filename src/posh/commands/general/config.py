@@ -202,16 +202,16 @@ class Config(Executable):
                 print(add_styles(colour.name, colour))
 
         if options.where:
-            if console.config.path is None:
-                print("The config file was not found")
-            else:
-                path_str = console.config.path.as_posix()
-                print(
-                    add_styles(
-                        repr(path_str) if " " in path_str else path_str,
-                        console.config.colours.file_path,
-                    )
+            if not console.config.path.exists():
+                return FileNotFoundError("Error: couldn't find config file")
+
+            path_str = console.config.path.as_posix()
+            print(
+                add_styles(
+                    repr(path_str) if " " in path_str else path_str,
+                    console.config.colours.file_path,
                 )
+            )
 
         if options.reload:
             console.reload_config()

@@ -46,9 +46,7 @@ class License(Executable):
         if console.data_directory is None:
             return FileNotFoundError("Error: data directory is missing")
 
-        license_path = console.data_directory / "license.txt"
-
-        if not license_path.exists():
+        if not (license_path := console.data_directory / "license.txt").exists():
             return FileNotFoundError("Error: couldn't find license file")
 
         if options.print:

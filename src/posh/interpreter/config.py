@@ -74,7 +74,7 @@ class ColourConfig:
 class Config:
     def __init__(
         self,
-        path: Path | None = None,
+        path: Path,
         show_time: bool | None = None,
         show_username: bool | None = None,
         record_history: bool | None = None,
@@ -161,9 +161,6 @@ class Config:
         }
 
     def write_to_json(self) -> None:
-        if self.path is None:
-            return
-
         try:
             with open(self.path, "w", encoding="utf8") as file:
                 dump(self.as_dict(), file, indent=4)
