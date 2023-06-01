@@ -41,4 +41,4 @@ If you need help with any commands when in the shell run `$ help <cmd>` or `$ cm
 
 ## License
 
-This project is licensed with the GNU General Public License V3, for more information view the license file which can be accessed on github [here](https://github.com/ErisFletcher/posh/blob/main/LICENSE.md) located by running `$ license -w` or run `$ license -p` to print the license.
+This project is licensed with the GNU General Public License V3, for more information view the license file which can be accessed on github located [here](https://github.com/ErisFletcher/posh/blob/main/LICENSE.md) by running `$ license -w` or run `$ license -p` to print the license.
