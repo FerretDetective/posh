@@ -37,7 +37,7 @@ def expand_aliases(
     aliases: Mapping[str, list[str]],
 ) -> list[list[str]]:
     for cmd_group_index, cmd_group in enumerate(command_groups):
-        if "alias" in cmd_group:
+        if "alias" == cmd_group[0]:
             continue
 
         aliases_copy = dict(aliases)
