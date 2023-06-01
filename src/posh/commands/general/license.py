@@ -43,7 +43,7 @@ class License(Executable):
             self.parser.print_usage()
             return
 
-        if console.data_directory is None:
+        if not console.data_directory.exists():
             return FileNotFoundError("Error: data directory is missing")
 
         if not (license_path := console.data_directory / "license.txt").exists():

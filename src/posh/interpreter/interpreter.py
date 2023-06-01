@@ -27,9 +27,8 @@ class Interpreter:
         self.project_dir = Path(__file__).parent.parent
         self.data_directory = self.project_dir / "data"
         if not self.data_directory.exists():
-            self.data_directory = None
+            self.config = Config(self.data_directory / "config.json")
             logger.warning("data directory couldn't be found")
-            self.config = Config()
             self.history_manager = None
         else:
             self.config = Config.from_json(self.data_directory / "config.json")
@@ -49,8 +48,8 @@ class Interpreter:
         return f"{type(self).__name__}{{pid: {getpid()!r}, cwd: {self.cwd!r}}}"
 
     def reload_config(self) -> None:
-        if self.data_directory is None:
-            self.config = Config()
+        if not self.data_directory.exists():
+            self.config = Config(self.config.path)
         else:
             self.config = Config.from_json(self.data_directory / "config.json")
 

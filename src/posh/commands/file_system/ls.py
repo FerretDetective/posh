@@ -144,11 +144,12 @@ class Ls(Executable):
             return
 
         parsed_string_path = parse_path(options.path, console.cwd)
+        path = parsed_string_path
 
-        if not parsed_string_path.is_absolute():
-            path = console.cwd / parsed_string_path
+        if not path.is_absolute():
+            path = console.cwd / path
 
-        if path is None:
+        if not path.exists():
             return FileNotFoundError(f"Error: {options.path!r} does not exist.")
 
         compiled_ignore_patterns = list[Pattern[str]]()

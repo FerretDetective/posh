@@ -129,7 +129,7 @@ class Config(Executable):
     def help(self) -> str:
         return self.parser.format_help()
 
-    def execute(self, console: Interpreter, args: Sequence[str]) -> None:
+    def execute(self, console: Interpreter, args: Sequence[str]) -> None | Exception:
         if (options := self.parser.parse_arguments(args)) is None:
             return
 
