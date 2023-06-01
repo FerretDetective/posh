@@ -48,5 +48,5 @@ dev = [
 include-package-data = true
 
 [tool.setuptools.packages.find]
-where = ["src/posh/data"]
+where = ["src"]
 
