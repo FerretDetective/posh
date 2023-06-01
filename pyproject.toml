@@ -50,5 +50,5 @@ include-package-data = true
 [tool.setuptools.packages.find]
 where = ["src"]
 
-[options.package_data]
+[tool.setuptools.package-data]
 posh = ["data/*"]
