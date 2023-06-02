@@ -22,8 +22,23 @@ The posh shell is a cross platform shell written in python meant to be a partial
 
 ## Installation
 
+### Installing with git
+
 1. Open your terminal.
 2. Run `$ python -m pip install git+https://github.com/ErisFletcher/posh`.
+
+### Installing without git
+
+1. Open the github page located [here](https://github.com/ErisFletcher/posh/blob/main/LICENSE.md).
+2. Find the green "Code" button and click on it.
+3. In the pop up, move down and click on "Download Zip".
+4. Open your downloads folder.
+5. Extract the downloaded zip.
+6. Move the extracted folder to where you would like the install location to be.
+7. Open your terminal.
+8. Run `$ cd <path to the extracted folder>`.
+9. Run `$ ls` for Unix systems and `$ dir` for Windows/Dos systems and make sure you see the "src" folder.
+10. Run `$ python -m pip install .`.
 
 ## Basic Usage
 
@@ -37,7 +52,7 @@ To start the interpreter run `$ python -m posh <path-to-your-script> <...args>` 
 
 ### Getting Help
 
-If you need help with any commands when in the shell run `$ help <cmd>` or `$ cmd --help` to print the help page.
+If you need help with any commands when in the shell run `$ help <cmd>` or `$ <cmd> --help` to print the help page.
 
 ## License
 
