@@ -31,7 +31,7 @@ file = "README.md"
 content-type = "text/markdown"
 
 [project.license]
-file = "src/posh/LICENSE.txt"
+file = "LICENSE.md"
 
 [project.urls]
 homepage = "https://github.com/ErisFletcher/posh"
