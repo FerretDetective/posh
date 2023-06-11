@@ -29,7 +29,7 @@ The posh shell is a cross platform shell written in python meant to be a partial
 
 ### Installing without git
 
-1. Open the github page located [here](https://github.com/ErisFletcher/posh/blob/main/LICENSE.md).
+1. Open the github page located [here](https://github.com/ErisFletcher/posh).
 2. Find the green "Code" button and click on it.
 3. In the pop up, move down and click on "Download Zip".
 4. Open your downloads folder.
