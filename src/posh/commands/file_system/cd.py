@@ -40,6 +40,6 @@ class Cd(Executable):
             return FileNotFoundError(f"Error: {path.as_posix()!r} does not exist.")
 
         if path.is_file():
-            return Exception(f"Error: {path.as_posix()!r} is a file.")
+            return NotADirectoryError(f"Error: {path.as_posix()!r} is a file.")
 
         console.cwd = path
