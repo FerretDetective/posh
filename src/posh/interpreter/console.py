@@ -23,17 +23,14 @@ def shorten_path(path: Path, length: int, root_str: str) -> str:
     return f"{root_str}{Path(*reversed(parts)).as_posix()}"
 
 
-def right_pad(string: str, length: int, char: str = " ") -> str:
-    return (length - len(string)) * char + string
-
-
 class Console(Interpreter):
     def input_string(self) -> str:
         output = ""
 
         if self.config.show_time:
+            time_block = f"[{strftime('%X')}]"
             output += add_styles(
-                right_pad(f"[{strftime('%X')}] ", get_terminal_size().columns) + "\r",
+                f"{time_block:>{get_terminal_size().columns}}\r",
                 self.config.colours.time,
                 BasicStyle.BOLD,
             )
