@@ -20,10 +20,6 @@ if TYPE_CHECKING:
     from ...interpreter import Interpreter
 
 
-def left_pad(string: str, length: int, char: str = " ") -> str:
-    return string + (char * (length - len(string)))
-
-
 def is_int(n: float) -> bool:
     return n % 1 == 0
 
@@ -63,9 +59,9 @@ def get_format_string(
             output += add_styles("d  ", directory_style)
 
     if human_readable:  # overrides show_size
-        output += left_pad(get_readable_size(getsize(path)), 8) + "  "
+        output += f"{get_readable_size(getsize(path)):<8}  "
     elif show_size:
-        output += left_pad(str(getsize(path)), 10) + "  "
+        output += f"{getsize(path):<10}  "
 
     output += add_styles(
         repr(path.name) if " " in path.name else path.name,
