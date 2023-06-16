@@ -25,10 +25,10 @@ def is_int(n: float) -> bool:
 
 
 def get_readable_size(size: float, ndigits: int = 2) -> str:
-    prefixes = ("", "K", "M", "G", "T", "P", "E", "Z", "Y")
+    prefixes = ("", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi", "Yi")
     for prefix in prefixes:
         if size < 1024:
-            return f"{int(size) if is_int(size) else round(size, ndigits)}" f"{prefix}B"
+            return f"{int(size) if is_int(size) else round(size, ndigits)}{prefix}B"
 
         size /= 1024
 
