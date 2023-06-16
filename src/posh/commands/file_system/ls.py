@@ -59,7 +59,7 @@ def get_format_string(
             output += add_styles("d  ", directory_style)
 
     if human_readable:  # overrides show_size
-        output += f"{get_readable_size(getsize(path)):<8}  "
+        output += f"{get_readable_size(getsize(path)):<10}  "
     elif show_size:
         output += f"{getsize(path):<10}  "
 
