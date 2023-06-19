@@ -23,8 +23,8 @@ dependencies = [
 dynamic = ["version"]
 
 [[project.authors]]
-name = "Eris Fletcher"
-email = "fletcher.eris@gmail.com"
+name = "Eris"
+email = "theferretdetective@gmail.com"
 
 [projecct.readme]
 file = "README.md"
@@ -34,8 +34,8 @@ content-type = "text/markdown"
 file = "LICENSE.md"
 
 [project.urls]
-homepage = "https://github.com/ErisFletcher/posh"
-"Issue Tracker" = "https://github.com/ErisFletcher/posh/issues"
+homepage = "https://github.com/FerretDetective/posh"
+"Issue Tracker" = "https://github.com/FerretDetective/posh/issues"
 
 [project.optional-dependencies]
 dev = [

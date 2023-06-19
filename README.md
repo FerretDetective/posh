@@ -13,8 +13,8 @@ Version: 1.1.1
 
 ## Links
 
-- [Home Page](https://github.com/ErisFletcher/posh)
-- [Issue Tracker](https://github.com/ErisFletcher/posh/issues)
+- [Home Page](https://github.com/FerretDetective/posh)
+- [Issue Tracker](https://github.com/FerretDetective/posh/issues)
 
 ## Overview
 
@@ -25,11 +25,11 @@ The posh shell is a cross platform shell written in python meant to be a partial
 ### Installing with git
 
 1. Open your terminal.
-2. Run `$ python -m pip install git+https://github.com/ErisFletcher/posh`.
+2. Run `$ python -m pip install git+https://github.com/FerretDetective/posh`.
 
 ### Installing without git
 
-1. Open the github page located [here](https://github.com/ErisFletcher/posh).
+1. Open the github page located [here](https://github.com/FerretDetective/posh).
 2. Find the green "Code" button and click on it.
 3. In the pop up, move down and click on "Download Zip".
 4. Open your downloads folder.
@@ -56,4 +56,4 @@ If you need help with any commands when in the shell run `$ help <cmd>` or `$ <c
 
 ## License
 
-This project is licensed with the GNU General Public License V3, for more information view the license file which can be accessed on github located [here](https://github.com/ErisFletcher/posh/blob/main/LICENSE.md) by running `$ license -w` or run `$ license -p` to print the license.
+This project is licensed with the GNU General Public License V3, for more information view the license file which can be accessed on github located [here](https://github.com/FerretDetective/posh/blob/main/LICENSE.md) by running `$ license -w` or run `$ license -p` to print the license.
