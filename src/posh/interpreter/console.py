@@ -6,7 +6,7 @@ from os import get_terminal_size
 from pathlib import Path
 from time import strftime
 
-from ..colours import BasicStyle, add_styles
+from ..colours import Meta, add_colours
 from .interpreter import Interpreter
 
 
@@ -29,16 +29,15 @@ class Console(Interpreter):
 
         if self.config.show_time:
             time_block = f"[{strftime('%X')}]"
-            output += add_styles(
+            output += add_colours(
                 f"{time_block:>{get_terminal_size().columns}}\r",
                 self.config.colours.time,
-                BasicStyle.BOLD,
+                Meta.BOLD,
             )
 
         if self.config.show_username:
             output += (
-                add_styles(getuser(), self.config.colours.username, BasicStyle.BOLD)
-                + ":"
+                add_colours(getuser(), self.config.colours.username, Meta.BOLD) + ":"
             )
 
         # resolve the cwd if the user deletes it
@@ -50,49 +49,47 @@ class Console(Interpreter):
 
         if self.config.shorten_path:
             if self.cwd == Path.home():
-                output += add_styles(
-                    "~", self.config.colours.current_path, BasicStyle.BOLD
-                )
+                output += add_colours("~", self.config.colours.current_path, Meta.BOLD)
             elif self.cwd.is_relative_to(Path.home()):
                 relative_path = self.cwd.relative_to(Path.home())
                 relative_path_string = relative_path.as_posix()
                 if len(relative_path_string) > self.config.shortened_path_length:
-                    output += add_styles(
+                    output += add_colours(
                         shorten_path(
                             relative_path,
                             self.config.shortened_path_length,
                             "~/.../",
                         ),
                         self.config.colours.current_path,
-                        BasicStyle.BOLD,
+                        Meta.BOLD,
                     )
                 else:
-                    output += add_styles(
+                    output += add_colours(
                         f"~/{relative_path_string}",
                         self.config.colours.current_path,
-                        BasicStyle.BOLD,
+                        Meta.BOLD,
                     )
             elif len(str(self.cwd)) > self.config.shortened_path_length:
-                output += add_styles(
+                output += add_colours(
                     shorten_path(
                         self.cwd,
                         self.config.shortened_path_length,
                         f"{Path(Path.home().anchor).as_posix()}.../",
                     ),
                     self.config.colours.current_path,
-                    BasicStyle.BOLD,
+                    Meta.BOLD,
                 )
             else:
-                output += add_styles(
+                output += add_colours(
                     self.cwd.as_posix(),
                     self.config.colours.current_path,
-                    BasicStyle.BOLD,
+                    Meta.BOLD,
                 )
         else:
-            output += add_styles(
+            output += add_colours(
                 self.cwd.as_posix(),
                 self.config.colours.current_path,
-                BasicStyle.BOLD,
+                Meta.BOLD,
             )
 
         return output
@@ -112,6 +109,6 @@ class Console(Interpreter):
 
                 err = self.interpret_command(string_input)
                 if err is not None:
-                    print(add_styles(str(err), self.config.colours.errors))
+                    print(add_colours(str(err), self.config.colours.errors))
             except KeyboardInterrupt:  # allows the user to exit out of running cmd
                 print()

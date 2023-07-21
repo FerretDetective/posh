@@ -4,7 +4,7 @@ from collections.abc import Sequence
 from functools import partial
 from typing import TYPE_CHECKING
 
-from ...colours import add_styles
+from ...colours import add_colours
 from ..argparser import InlineArgumentParser
 from ..command import Executable
 from .path_utils import parse_path
@@ -39,7 +39,7 @@ class Touch(Executable):
 
     def execute(self, console: Interpreter, args: Sequence[str]) -> None | Exception:
         if (options := self.parser.parse_arguments(args)) is None:
-            return
+            return None
 
         for path in map(partial(parse_path, cwd=console.cwd), options.paths):
             if not path.is_absolute():
@@ -47,7 +47,7 @@ class Touch(Executable):
 
             if path.exists() and not options.force:
                 print(
-                    add_styles(
+                    add_colours(
                         f"Error: {path.as_posix()!r} already exists, "
                         "use -f, --force to overwrite it.",
                         console.config.colours.errors,
@@ -59,3 +59,5 @@ class Touch(Executable):
                 path.touch(exist_ok=True)
             except OSError as err:
                 return OSError(f"Error: {err}")
+
+        return None

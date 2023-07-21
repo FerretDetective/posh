@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from ..colours import add_styles
+from ..colours import add_colours
 from .interpreter import Interpreter
 
 
@@ -39,25 +39,25 @@ class FileIntepreter(Interpreter):
     def main(self) -> None:
         try:
             with open(self.file_path, "rb") as file:
-                for index, line in enumerate(file, start=1):
+                for index, line_bytes in enumerate(file, start=1):
                     try:
-                        line = line.decode("utf8").strip()
+                        line = line_bytes.decode("utf8").strip()
                     except UnicodeDecodeError as err:
                         print(
-                            add_styles(
+                            add_colours(
                                 f"Error: parsing failed on line {index} in file "
                                 f"{self.file_path.as_posix()!r}, {err}"
                             )
                         )
                         return
                     try:
-                        error = self.interpret_command(line)
+                        error: BaseException | None = self.interpret_command(line)
                     except KeyboardInterrupt:
-                        error = KeyboardInterrupt("Error: KEYBOARD INTERUPT")
+                        error = KeyboardInterrupt("Error: KEYBOARD INTERRUPT")
 
                     if error is not None:
                         print(
-                            add_styles(
+                            add_colours(
                                 Traceback(
                                     error, self.file_path, line, index
                                 ).format_traceback(),
@@ -67,10 +67,10 @@ class FileIntepreter(Interpreter):
                         return
         except OSError as err:
             print(
-                add_styles(
+                add_colours(
                     f"Error: failed to open file {self.file_path.as_posix()!r}, {err}",
                     self.config.colours.errors,
                 )
             )
         except KeyboardInterrupt:
-            print(add_styles("Error: KEYBOARD INTERUPT", self.config.colours.errors))
+            print(add_colours("Error: KEYBOARD INTERUPT", self.config.colours.errors))

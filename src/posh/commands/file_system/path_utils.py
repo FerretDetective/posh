@@ -6,7 +6,7 @@ from shutil import copy2, copytree
 from stat import FILE_ATTRIBUTE_HIDDEN
 from sys import platform
 
-from ...colours import TextStyle, add_styles
+from ...colours import FgColour, add_colours
 
 
 @cache
@@ -57,7 +57,7 @@ def check_ignore(
     )
 
 
-def backup(path: Path, err_style: TextStyle) -> None:
+def backup(path: Path, err_style: FgColour) -> None:
     backup_path = Path(f"{path.as_posix()}.backup")
 
     i = 1
@@ -70,4 +70,4 @@ def backup(path: Path, err_style: TextStyle) -> None:
         else:
             copy2(path, backup_path)
     except OSError as err:
-        print(add_styles(f"Error: failed to create backup, {err}", err_style))
+        print(add_colours(f"Error: failed to create backup, {err}", err_style))

@@ -44,7 +44,7 @@ class Mkdir(Executable):
 
     def execute(self, console: Interpreter, args: Sequence[str]) -> None | Exception:
         if (options := self.parser.parse_arguments(args)) is None:
-            return
+            return None
 
         for path in map(partial(parse_path, cwd=console.cwd), options.paths):
             if not path.is_absolute():
@@ -65,3 +65,5 @@ class Mkdir(Executable):
                     path.mkdir(exist_ok=True)
                 except OSError as err:
                     return OSError(f"Error: {err}")
+
+        return None

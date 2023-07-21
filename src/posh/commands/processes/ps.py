@@ -23,10 +23,8 @@ def get_pid(process: Process) -> str:
 def get_tty(process: Process) -> str:
     try:
         return process.terminal()  # type: ignore
-    except Exception as err:
-        if isinstance(err, (AccessDenied, AttributeError)):
-            return "N/A"
-        raise
+    except (AccessDenied, AttributeError):
+        return "N/A"
 
 
 def get_time(process: Process) -> str:

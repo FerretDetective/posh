@@ -46,7 +46,7 @@ class Alias(Executable):
 
     def execute(self, console: Interpreter, args: Sequence[str]) -> None | Exception:
         if (options := self.parser.parse_arguments(args)) is None:
-            return
+            return None
 
         if options.print:
             print("Aliases:")
@@ -69,9 +69,11 @@ class Alias(Executable):
                 print(
                     "alias: error: the following arguments are required: alias, commands"
                 )
-                return
+                return None
 
             console.config.aliases.update(
                 console.config.parse_aliases({options.alias: options.command})
             )
             console.config.check_aliases()
+
+        return None

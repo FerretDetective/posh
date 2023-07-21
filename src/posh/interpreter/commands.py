@@ -10,6 +10,10 @@ if TYPE_CHECKING:
     from ..commands import Executable
 
 
+class FailedToParseError(Exception):
+    pass
+
+
 @dataclass
 class Command:
     full_args: list[str]
@@ -37,7 +41,7 @@ def expand_aliases(
     aliases: Mapping[str, list[str]],
 ) -> list[list[str]]:
     for cmd_group_index, cmd_group in enumerate(command_groups):
-        if "alias" == cmd_group[0]:
+        if cmd_group and "alias" == cmd_group[0]:
             continue
 
         aliases_copy = dict(aliases)
@@ -57,15 +61,20 @@ def expand_aliases(
                         del aliases_copy[arg]
                     cur_group = []
 
-            for inner_index, arg in indexs_to_replace:
-                cmd_group = cmd_group[:inner_index] + arg + cmd_group[inner_index + 1 :]
+            for inner_index, args in indexs_to_replace:
+                cmd_group = (
+                    cmd_group[:inner_index] + args + cmd_group[inner_index + 1 :]
+                )
                 command_groups[cmd_group_index] = cmd_group
     return command_groups
 
 
-def parse_commands(commands: Sequence[list[str]]) -> list[Command] | ValueError:
+def parse_commands(commands: Sequence[list[str]]) -> list[Command] | Exception:
     command_strings = list[Command]()
     for arg_group in commands:
+        if not arg_group:
+            return FailedToParseError("Error: failed to parse command")
+
         if arg_group[0].startswith("$"):
             if "=" in arg_group:
                 if len(arg_group) != 3:
@@ -93,7 +102,7 @@ def parse_commands(commands: Sequence[list[str]]) -> list[Command] | ValueError:
 
 def parse_string_command(
     string_args: str, aliases: Mapping[str, list[str]]
-) -> list[Command] | ValueError:
+) -> list[Command] | Exception:
     lexer = shlex(string_args, punctuation_chars=True, posix=True)
     lexer.whitespace_split = True
     try:

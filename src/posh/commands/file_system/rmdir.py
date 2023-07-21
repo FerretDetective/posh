@@ -37,7 +37,7 @@ class Rmdir(Executable):
 
     def execute(self, console: Interpreter, args: Sequence[str]) -> None | Exception:
         if (options := self.parser.parse_arguments(args)) is None:
-            return
+            return None
 
         for name, path in zip(
             options.paths, map(partial(parse_path, cwd=console.cwd), options.paths)
@@ -82,3 +82,5 @@ class Rmdir(Executable):
                     path.rmdir()
                 except OSError as err:
                     return OSError(f"Error: {err}")
+
+        return None

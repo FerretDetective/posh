@@ -7,7 +7,7 @@ from pathlib import Path
 from re import Pattern, error
 from typing import TYPE_CHECKING, Callable
 
-from ...colours import TextStyle, add_styles
+from ...colours import FgColour, add_colours
 from ..argparser import InlineArgumentParser
 from ..command import Executable
 from ..regexp import compile_regexp
@@ -24,7 +24,7 @@ def remove_path(
     ignore_checker: Callable[[Path], bool],
 ) -> None | Exception:
     if ignore_checker(path):
-        return
+        return None
 
     is_file = path.is_file()
 
@@ -34,32 +34,34 @@ def remove_path(
             f"Remove {'file' if is_file else 'directory'}: {path.as_posix()!r}? [y/n]: "
         )
         if confirmation.lower() != "y":
-            return
+            return None
 
     try:
         if is_file:
             path.unlink()
         else:
             path.rmdir()
+
+        return None
     except OSError as err:
         return OSError(f"Error: {err}")
 
 
 def remove_recursively(
-    path: Path, remover: Callable[[Path], None | Exception], err_style: TextStyle
+    path: Path, remover: Callable[[Path], None | Exception], err_style: FgColour
 ) -> None:
     for root, dirs, files in walk(path, topdown=False):
         root_path = Path(root)
         for name in dirs:
             if (err := remover(root_path / name)) is not None:
-                print(add_styles(str(err), err_style))
+                print(add_colours(str(err), err_style))
         for name in files:
             if (err := remover(root_path / name)) is not None:
-                print(add_styles(str(err), err_style))
+                print(add_colours(str(err), err_style))
 
     # walk doesn't include exclusively the root path
     if (err := remover(path)) is not None:
-        print(add_styles(str(err), err_style))
+        print(add_colours(str(err), err_style))
 
 
 def count_path_objs(path: Path) -> tuple[int, int]:
@@ -119,7 +121,7 @@ class Rm(Executable):
 
     def execute(self, console: Interpreter, args: Sequence[str]) -> None | Exception:
         if (options := self.parser.parse_arguments(args)) is None:
-            return
+            return None
 
         paths = list[Path]()
         for path in map(partial(parse_path, cwd=console.cwd), options.paths):
@@ -138,7 +140,7 @@ class Rm(Executable):
         # if the length of the paths is different that parsed.paths then atleast one of them is
         # invalid. however force overrides ignores invalid paths
         if len(paths) != len(options.paths) and not options.force:
-            return
+            return None
 
         compiled_ignore_patterns = list[Pattern[str]]()
         for pattern in options.ignore_patterns:
@@ -150,7 +152,7 @@ class Rm(Executable):
 
         # if any patterns failed to compile return
         if len(compiled_ignore_patterns) != len(options.ignore_patterns):
-            return
+            return None
 
         ignore = partial(
             check_ignore, ignores=[], ignore_patterns=compiled_ignore_patterns
@@ -199,3 +201,5 @@ class Rm(Executable):
                     )
             else:
                 return remove(path)
+
+        return None

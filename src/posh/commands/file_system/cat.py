@@ -65,7 +65,7 @@ class Cat(Executable):
 
     def execute(self, console: Interpreter, args: Sequence[str]) -> None | Exception:
         if (options := self.parser.parse_arguments(args)) is None:
-            return
+            return None
 
         paths = list[Path]()
         for path_string in options.paths:
@@ -88,9 +88,9 @@ class Cat(Executable):
                 with open(path, "rb") as file:
                     previous_line_blank = False
 
-                    for line in file:
+                    for bytes_line in file:
                         try:
-                            line = line.decode("utf8")
+                            line = bytes_line.decode("utf8")
                         except UnicodeDecodeError as err:
                             return Exception(
                                 f"Error: failed to decode line {line}, {err}"
@@ -142,3 +142,5 @@ class Cat(Executable):
                         print(line.rstrip("\n"))
             except OSError as err:
                 return OSError(f"Error: {err}")
+
+        return None

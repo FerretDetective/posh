@@ -6,7 +6,7 @@ from pathlib import Path
 from shutil import copy2, copyfile, copytree, rmtree
 from typing import TYPE_CHECKING
 
-from ...colours import add_styles
+from ...colours import add_colours
 from ..argparser import InlineArgumentParser
 from ..command import Executable
 from .path_utils import backup, parse_path
@@ -21,6 +21,8 @@ def remove(path: Path) -> None | OSError:
             rmtree(path)
         else:
             path.unlink()
+
+        return None
     except OSError as err:
         return OSError(f"Error: failed to remove {path.as_posix()!r}, {err}")
 
@@ -84,7 +86,7 @@ class Cp(Executable):
 
     def execute(self, console: Interpreter, args: Sequence[str]) -> None | Exception:
         if (options := self.parser.parse_arguments(args)) is None:
-            return
+            return None
 
         destination = parse_path(options.destination, console.cwd)
 
@@ -129,7 +131,7 @@ class Cp(Executable):
                     == "y"
                 ):
                     if (err := remove(dest_path)) is not None:
-                        print(add_styles(str(err), console.config.colours.errors))
+                        print(add_colours(str(err), console.config.colours.errors))
                 else:
                     return FileExistsError(
                         f"Error: {dest_path.as_posix()!r} exists, "
@@ -148,3 +150,5 @@ class Cp(Executable):
                     copy_function(source, dest_path)
             except OSError as err:
                 return OSError(f"Error: {err}")
+
+        return None

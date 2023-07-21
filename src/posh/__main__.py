@@ -4,8 +4,10 @@ from pathlib import Path
 
 from loguru import logger
 
+from posh.interpreter.interpreter import Interpreter
+
 from . import __version__
-from .colours import TextStyle, add_styles
+from .colours import FgColour, add_colours
 from .interpreter import Console, FileIntepreter
 
 
@@ -42,13 +44,14 @@ def main() -> None:
         starting_directory = Path(arguments.starting_directory).expanduser().resolve()
         if not starting_directory.exists():
             print(
-                add_styles(
+                add_colours(
                     f"invalid starting directory: {arguments.starting_directory!r}",
-                    TextStyle.LIGHT_RED,
+                    FgColour.LIGHT_RED,
                 )
             )
             return
 
+    interpreter: Interpreter
     if arguments.file_path is not None:
         file_path = Path(arguments.file_path).expanduser()
 
@@ -59,9 +62,9 @@ def main() -> None:
 
         if not file_path.is_file():
             print(
-                add_styles(
+                add_colours(
                     f"invalid file or path: {arguments.file_path!r}",
-                    TextStyle.LIGHT_RED,
+                    FgColour.LIGHT_RED,
                 )
             )
             return

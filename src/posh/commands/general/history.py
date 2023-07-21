@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from functools import cache
-from typing import TYPE_CHECKING, Callable, Iterator
+from typing import TYPE_CHECKING, Iterator
 
 from loguru import logger
 from pyperclip import copy  # type: ignore
@@ -12,8 +12,6 @@ from ..command import Executable
 
 if TYPE_CHECKING:
     from ...interpreter import HistoryManager, Interpreter
-
-copy: Callable[[str], None]
 
 
 def load_history_lines(history_manager: HistoryManager) -> Iterator[str]:
@@ -88,7 +86,7 @@ class History(Executable):
 
     def execute(self, console: Interpreter, args: Sequence[str]) -> None | Exception:
         if (options := self.parser.parse_arguments(args)) is None:
-            return
+            return None
 
         if console.history_manager is None:
             return Exception("Error: couldn't load history manager")
@@ -99,7 +97,9 @@ class History(Executable):
         elif options.clear:
             clear_history(console.history_manager)
         elif options.copy:
-            cmd = get_line(options.copy, console.history_manager)
-            if isinstance(cmd, Exception):
-                return cmd
-            copy(cmd)
+            line = get_line(options.copy, console.history_manager)
+            if isinstance(line, Exception):
+                return line
+            copy(line)
+
+        return None

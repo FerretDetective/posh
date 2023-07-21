@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING
 
 from natsort import natsorted
 
-from ...colours import TextStyle, add_styles
+from ...colours import FgColour, add_colours
 from ..argparser import InlineArgumentParser
 from ..command import Executable
 from ..regexp import compile_regexp
@@ -43,8 +43,8 @@ def get_format_string(
     human_readable: bool,
     ignore: list[str],
     ignore_patterns: list[Pattern[str]],
-    directory_style: TextStyle,
-    file_style: TextStyle,
+    directory_style: FgColour,
+    file_style: FgColour,
 ) -> str:
     if check_ignore(path, ignore, ignore_patterns) or (
         is_hidden(path) and not show_all
@@ -54,16 +54,16 @@ def get_format_string(
     output = ""
     if show_type:
         if path.is_file():
-            output += add_styles("f  ", file_style)
+            output += add_colours("f  ", file_style)
         else:
-            output += add_styles("d  ", directory_style)
+            output += add_colours("d  ", directory_style)
 
     if human_readable:  # overrides show_size
         output += f"{get_readable_size(getsize(path)):<10}  "
     elif show_size:
         output += f"{getsize(path):<10}  "
 
-    output += add_styles(
+    output += add_colours(
         repr(path.name) if " " in path.name else path.name,
         file_style if path.is_file() else directory_style,
     )
@@ -137,7 +137,7 @@ class Ls(Executable):
 
     def execute(self, console: Interpreter, args: Sequence[str]) -> None | Exception:
         if (options := self.parser.parse_arguments(args)) is None:
-            return
+            return None
 
         parsed_string_path = parse_path(options.path, console.cwd)
         path = parsed_string_path
@@ -216,3 +216,5 @@ class Ls(Executable):
         else:
             for file in natsorted(listdir(path)):
                 print(format_path(path / file), end="")
+
+        return None

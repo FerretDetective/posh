@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from abc import ABC, abstractmethod
 from os import getpid
 from pathlib import Path
 
@@ -16,11 +17,11 @@ from .config import Config
 from .history_manager import HistoryManager
 
 
-class UnknownCommand(Exception):
+class UnknownCommandError(Exception):
     ...
 
 
-class Interpreter:
+class Interpreter(ABC):
     def __init__(self, starting_directory: Path) -> None:
         self.cwd = starting_directory
         self.variables = dict[str, str]()
@@ -60,7 +61,7 @@ class Interpreter:
 
     def interpret_command(self, string_command: str) -> None | Exception:
         commands = parse_string_command(string_command, self.config.aliases)
-        if isinstance(commands, ValueError):
+        if isinstance(commands, Exception):
             return commands
 
         for command in commands:
@@ -73,7 +74,9 @@ class Interpreter:
                 print(repr(variable) if " " in variable else variable)
             elif isinstance(command, ExecutableCommand):
                 if (executor := self.commands.get(command.command)) is None:
-                    return UnknownCommand(f"Error: unknown command {command.command!r}")
+                    return UnknownCommandError(
+                        f"Error: unknown command {command.command!r}"
+                    )
 
                 for index, value in enumerate(command.args):
                     if value.startswith("$"):
@@ -88,3 +91,7 @@ class Interpreter:
                     return err
 
         return None
+
+    @abstractmethod
+    def main(self) -> None:
+        ...

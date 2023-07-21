@@ -36,7 +36,7 @@ class Kill(Executable):
 
     def execute(self, console: Interpreter, args: Sequence[str]) -> None | Exception:
         if (options := self.parser.parse_arguments(args)) is None:
-            return
+            return None
 
         try:
             process = Process(pid=options.pid)
@@ -58,3 +58,5 @@ class Kill(Executable):
             return Exception(
                 f"Error: process with pid {options.pid} no longer exists",
             )
+
+        return None

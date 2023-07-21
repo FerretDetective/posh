@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 class Run(Executable):
     def __init__(self) -> None:
-        self.parser = InlineArgumentParser.from_command(self)
+        self.parser = InlineArgumentParser.from_command(self, add_help=False)
         self.parser.add_argument("cmd", type=str, help="command to run")
 
     @classmethod

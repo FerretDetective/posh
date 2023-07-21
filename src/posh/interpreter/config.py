@@ -4,11 +4,11 @@ from json import dump, load
 from pathlib import Path
 from shlex import shlex
 from string import whitespace
-from typing import Any, Self
+from typing import Any, Self, cast
 
 from loguru import logger
 
-from ..colours import TextStyle, add_styles
+from ..colours import FgColour, add_colours
 
 
 class ColourConfig:
@@ -38,16 +38,16 @@ class ColourConfig:
 
     @staticmethod
     def get_defaults() -> (
-        tuple[TextStyle, TextStyle, TextStyle, TextStyle, TextStyle, TextStyle]
+        tuple[FgColour, FgColour, FgColour, FgColour, FgColour, FgColour]
     ):
         # define all default colours here
         return (
-            TextStyle.WHITE,
-            TextStyle.LIGHT_BLUE,
-            TextStyle.WHITE,
-            TextStyle.LIGHT_CYAN,
-            TextStyle.GREEN,
-            TextStyle.LIGHT_RED,
+            FgColour.WHITE,
+            FgColour.LIGHT_BLUE,
+            FgColour.WHITE,
+            FgColour.LIGHT_CYAN,
+            FgColour.GREEN,
+            FgColour.LIGHT_RED,
         )
 
     def set_default(self) -> None:
@@ -60,15 +60,15 @@ class ColourConfig:
             self.errors,
         ) = self.get_defaults()
 
-    def parse_string(self, string: str | None) -> TextStyle | None:
+    def parse_string(self, string: str | None) -> FgColour | None:
         if string is None:
             return None
 
-        if not hasattr(TextStyle, string):
-            print(add_styles(f"Error: invalid colour {string!r}", self.errors))
+        if not hasattr(FgColour, string):
+            print(add_colours(f"Error: invalid colour {string!r}", self.errors))
             return None
 
-        return getattr(TextStyle, string)
+        return cast(FgColour, getattr(FgColour, string))
 
 
 class Config:
@@ -121,7 +121,7 @@ class Config:
         except TypeError as err:
             self = cls(path)
             logger.error(f"failed to create config with {data!r}, {err=!r}")
-            print(add_styles("Error: invalid config", self.colours.errors))
+            print(add_colours("Error: invalid config", self.colours.errors))
             return self
 
     @staticmethod
@@ -166,14 +166,14 @@ class Config:
                 dump(self.as_dict(), file, indent=4)
         except OSError as err:
             logger.error(f"failed to save config, {err}")
-            print(add_styles("failed to save config", self.colours.errors))
+            print(add_colours("failed to save config", self.colours.errors))
 
     def check_aliases(self) -> None:
         to_remove = list[str]()
         for alias in self.aliases:
             if any(s in alias for s in whitespace):
                 print(
-                    add_styles(
+                    add_colours(
                         f"Error: alias {alias!r} is invalid, white cannot be used in alias keys",
                         self.colours.errors,
                     )
@@ -193,7 +193,7 @@ class Config:
                 parsed_aliases[alias] = list(lexer)
             except ValueError as err:
                 print(
-                    add_styles(
+                    add_colours(
                         f"Error: failed to create alias {alias!r}, {err}",
                         self.colours.errors,
                     )

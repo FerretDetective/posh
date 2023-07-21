@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 from typing import TYPE_CHECKING
 
-from ...colours import add_styles
+from ...colours import add_colours
 from ..argparser import InlineArgumentParser
 from ..command import Executable
 
@@ -31,7 +31,7 @@ class Pwd(Executable):
             return
 
         print(
-            add_styles(
+            add_colours(
                 f"{string!r}" if " " in (string := console.cwd.as_posix()) else string,
                 console.config.colours.directory_path,
             )

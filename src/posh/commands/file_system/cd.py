@@ -29,7 +29,7 @@ class Cd(Executable):
 
     def execute(self, console: Interpreter, args: Sequence[str]) -> None | OSError:
         if (options := self.parser.parse_arguments(args)) is None:
-            return
+            return None
 
         path = parse_path(options.path, console.cwd)
 
@@ -43,3 +43,5 @@ class Cd(Executable):
             return NotADirectoryError(f"Error: {path.as_posix()!r} is a file.")
 
         console.cwd = path
+
+        return None

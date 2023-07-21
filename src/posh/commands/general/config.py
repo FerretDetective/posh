@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 from typing import TYPE_CHECKING
 
-from ...colours import TextStyle, add_styles
+from ...colours import FgColour, add_colours
 from ..argparser import InlineArgumentParser
 from ..command import Executable
 from .print_utils import print_dict
@@ -86,7 +86,7 @@ class Config(Executable):
             help="length to shorten the console's cwd path to",
         )
 
-        colour_choices = [colour.name for colour in TextStyle]
+        colour_choices = [colour.name for colour in FgColour]
         self.parser.add_argument(
             "--time_colour",
             choices=colour_choices,
@@ -131,11 +131,11 @@ class Config(Executable):
 
     def execute(self, console: Interpreter, args: Sequence[str]) -> None | Exception:
         if (options := self.parser.parse_arguments(args)) is None:
-            return
+            return None
 
         if all(not arg for arg in vars(options).values()):
             self.parser.print_usage()
-            return
+            return None
 
         if options.show_time is not None:
             console.config.show_time = options.show_time == "true"
@@ -198,8 +198,8 @@ class Config(Executable):
             print_dict(console.config.as_dict())
 
         if options.print_colours:
-            for colour in TextStyle:
-                print(add_styles(colour.name, colour))
+            for colour in FgColour:
+                print(add_colours(colour.name, colour))
 
         if options.where:
             if not console.config.path.exists():
@@ -207,7 +207,7 @@ class Config(Executable):
 
             path_str = console.config.path.as_posix()
             print(
-                add_styles(
+                add_colours(
                     repr(path_str) if " " in path_str else path_str,
                     console.config.colours.file_path,
                 )
@@ -225,3 +225,5 @@ class Config(Executable):
         if options.generate_default:
             console.config.set_defaults()
             console.config.write_to_json()
+
+        return None

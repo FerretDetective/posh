@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 from typing import TYPE_CHECKING
 
-from ...colours import add_styles
+from ...colours import add_colours
 from ..argparser import InlineArgumentParser
 from ..command import Executable
 
@@ -37,11 +37,11 @@ class License(Executable):
 
     def execute(self, console: Interpreter, args: Sequence[str]) -> None | Exception:
         if (options := self.parser.parse_arguments(args)) is None:
-            return
+            return None
 
         if all(not arg for arg in vars(options).values()):
             self.parser.print_usage()
-            return
+            return None
 
         if not console.data_directory.exists():
             return FileNotFoundError("Error: data directory is missing")
@@ -58,8 +58,10 @@ class License(Executable):
         if options.where:
             path_str = license_path.as_posix()
             print(
-                add_styles(
+                add_colours(
                     repr(path_str) if " " in path_str else path_str,
                     console.config.colours.file_path,
                 )
             )
+
+        return None

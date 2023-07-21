@@ -67,7 +67,7 @@ class Mv(Executable):
 
     def execute(self, console: Interpreter, args: Sequence[str]) -> None | Exception:
         if (options := self.parser.parse_arguments(args)) is None:
-            return
+            return None
 
         destination = parse_path(options.destination, console.cwd)
 
@@ -125,3 +125,5 @@ class Mv(Executable):
                 move(source, dest_path)
             except OSError as err:
                 return OSError(f"Error: {err}")
+
+        return None
