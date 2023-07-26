@@ -13,36 +13,17 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
 ]
 requires-python = ">=3.11, <4"
-dependencies = [
-    "loguru>=0.7.0",
-    "colorama>=0.4.6",
-    "pyperclip>=1.8.2",
-    "natsort>=8.3.1",
-    "psutil>=5.9.5",
-]
-dynamic = ["version"]
+readme = "README.md"
+license = { file = "LICENSE.md" }
+dynamic = ["version", "dependencies", "optional-dependencies"]
 
 [[project.authors]]
 name = "Eris"
 email = "theferretdetective@gmail.com"
 
-[projecct.readme]
-file = "README.md"
-content-type = "text/markdown"
-
-[project.license]
-file = "LICENSE.md"
-
 [project.urls]
 homepage = "https://github.com/FerretDetective/posh"
 "Issue Tracker" = "https://github.com/FerretDetective/posh/issues"
-
-[project.optional-dependencies]
-dev = [
-    "pyright>=1.1.310",
-    "pylint>=2.17.4",
-    "black>=0.4.6",
-]
 
 [tool.setuptools]
 include-package-data = true
@@ -52,3 +33,10 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 posh = ["data/*"]
+
+[tool.setuptools.dynamic]
+dependencies = { file = "requirements.txt" }
+version = { attr = "posh.__version__" }
+
+[tool.setuptools.dynamic.optional-dependencies]
+dev = { file = "dev_requirements.txt" }
