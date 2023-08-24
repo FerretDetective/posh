@@ -1,13 +1,13 @@
 from typing import Callable, Mapping, TypeVar
 
-KT = TypeVar("KT")
-VT = TypeVar("VT")
+K = TypeVar("K")
+V = TypeVar("V")
 
 
 def print_dict(
-    d: Mapping[KT, VT],
-    format_key: Callable[[KT], str] = str,
-    format_val: Callable[[VT], str] = str,
+    d: Mapping[K, V],
+    format_key: Callable[[K], str] = str,
+    format_val: Callable[[V], str] = str,
     seperator: str = "=",
     whitespace: str = " " * 4,
     depth: int = 0,
@@ -17,7 +17,7 @@ def print_dict(
         if isinstance(value, dict):
             print(f"{current_whitespace}{format_key(key)}:")
             print_dict(
-                value,  # type: ignore
+                value,
                 format_key,
                 format_val,
                 seperator,
