@@ -76,7 +76,7 @@ class Rmdir(Executable):
                     return OSError(f"Error: {path.as_posix()!r} is not a directory.")
 
                 if any(path.iterdir()):
-                    raise FileExistsError(f"Error: {path.as_posix()!r} is not empty.")
+                    return FileExistsError(f"Error: {path.as_posix()!r} is not empty.")
 
                 try:
                     path.rmdir()
