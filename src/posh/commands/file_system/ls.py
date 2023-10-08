@@ -148,6 +148,9 @@ class Ls(Executable):
         if not path.exists():
             return FileNotFoundError(f"Error: {options.path!r} does not exist.")
 
+        if not path.is_dir():
+            return NotADirectoryError(f"Error: {options.path!r} is not a directory.")
+
         compiled_ignore_patterns = list[Pattern[str]]()
         for pattern in options.ignore_patterns:
             compiled = compile_regexp(pattern)
