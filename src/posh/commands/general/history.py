@@ -30,6 +30,8 @@ def clear_history(history_manager: HistoryManager) -> None:
     except OSError as err:
         logger.error(err)
 
+    get_line.cache_clear()
+
 
 @cache
 def get_line(line_number: int, history_manager: HistoryManager) -> str | IndexError:
