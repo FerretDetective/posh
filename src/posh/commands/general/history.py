@@ -32,23 +32,18 @@ def clear_history(history_manager: HistoryManager) -> None:
 
 
 @cache
-def get_line(number_string: str, history_manager: HistoryManager) -> str | Exception:
-    try:
-        line_no = int(number_string)
-    except ValueError:
-        return ValueError(f"Error: failed to convert {number_string} into an integer")
-
+def get_line(line_number: int, history_manager: HistoryManager) -> str | IndexError:
     # if using negative indexes we have to substract one to account for the current command
-    if line_no < 0:
-        line_no -= 1
+    if line_number < 0:
+        line_number -= 1
 
     lines = tuple(load_history_lines(history_manager))
 
-    if len(lines) < line_no:
+    if len(lines) < line_number:
         return IndexError(
-            f"Error: index out of range, index {line_no}, range {len(lines) - 1}"
+            f"Error: index out of range, index {line_number}, range {len(lines) - 1}"
         )
-    return lines[line_no].strip()
+    return lines[line_number].strip()
 
 
 class History(Executable):
@@ -98,8 +93,10 @@ class History(Executable):
             clear_history(console.history_manager)
         elif options.copy:
             line = get_line(options.copy, console.history_manager)
+
             if isinstance(line, Exception):
                 return line
+
             copy(line)
 
         return None
